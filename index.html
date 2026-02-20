@@ -24,7 +24,7 @@
     background-color: var(--bg);
     color: var(--text-main);
     min-height: 100vh;
-    padding-bottom: 100px;
+    padding-bottom: 110px;
     -webkit-font-smoothing: antialiased;
   }
   .en-font { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
@@ -56,7 +56,7 @@
   .status-badge .num { font-size: 16px; font-weight: 800; display: block; color: #10B981; }
   .status-badge .label { font-size: 9px; opacity: 0.7; }
 
-  .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+  .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
   .hero-card { border-radius: 18px; padding: 15px; height: 140px; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid transparent; }
   .card-sahur { background: var(--sahur-grad); }
   .card-iftar { background: var(--iftar-grad); }
@@ -65,16 +65,18 @@
   .hero-card .time { font-size: 22px; font-weight: 800; font-family: 'Inter', sans-serif; color: #0F172A; }
   .hero-card .sub { font-size: 11px; color: #475569; font-weight: 600; }
 
-  .summary-bar { background: white; border-radius: 12px; padding: 10px; display: flex; justify-content: space-around; box-shadow: 0 4px 15px rgba(0,0,0,0.02); margin-bottom: 15px; }
-  .summary-label { font-size: 10px; color: var(--text-muted); font-weight: 700; }
-  .summary-time { font-size: 13px; font-weight: 800; font-family: 'Inter', sans-serif; color: #064E3B; }
+  /* Separate Boxes for Summary Info */
+  .summary-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+  .summary-box { background: white; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+  .summary-label { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
+  .summary-time { font-size: 16px; font-weight: 800; font-family: 'Inter', sans-serif; color: #064E3B; }
 
   .floating-nav { display: flex; background: #E2E8F0; padding: 6px; border-radius: 20px; gap: 5px; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 1000; backdrop-filter: blur(15px); }
   .nav-btn { flex: 1; border: none; padding: 12px 5px; border-radius: 15px; font-family: 'Tiro Bangla', serif; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #475569; transition: all 0.3s; }
   .nav-btn.active { background: white; color: var(--accent-green); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
 
   .table-wrapper { background: white; border-radius: 16px; overflow-x: auto; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 350px; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 320px; }
   th { background: #F0FDF4; padding: 10px; text-align: left; color: #064E3B; font-weight: 800; }
   td { padding: 10px; border-bottom: 1px solid #F1F5F9; font-weight: 500; }
   tr.today-row { background: #F0FDF4; border-left: 5px solid var(--accent-green); }
@@ -155,17 +157,24 @@
         <div class="hero-card card-sahur" id="card-timer">
           <div><label>এখন সময়</label><div class="event" id="timer-label">সাহরি বাকি</div></div>
           <div class="time en-font" id="countdown-timer">০০:০০:০০</div>
-          <div class="sub" id="duration-text">সুবহে সাদিক: ৫:১১</div>
+          <div class="sub" id="duration-text">সাহরির শেষ সময়</div>
         </div>
         <div class="hero-card card-iftar" id="card-next">
           <div><label>পরবর্তী ইভেন্ট</label><div class="event" id="next-event-label">ইফতার শুরু</div></div>
           <div class="time en-font" id="next-event-time">--:--</div>
-          <div class="sub" id="sunset-text">সূর্যাস্ত: ৫:৫৯</div>
+          <div class="sub" id="sunset-text">ইফতারের সময়</div>
         </div>
       </div>
-      <div class="summary-bar">
-        <div class="summary-item"><div class="summary-label">সাহরি শেষ</div><div class="summary-time en-font" id="summ-sahur">--:--</div></div>
-        <div class="summary-item"><div class="summary-label">ইফতার শুরু</div><div class="summary-time en-font" id="summ-iftar">--:--</div></div>
+      
+      <div class="summary-container">
+        <div class="summary-box">
+          <div class="summary-label">সাহরি শেষ</div>
+          <div class="summary-time en-font" id="summ-sahur">--:--</div>
+        </div>
+        <div class="summary-box">
+          <div class="summary-label">ইফতার শুরু</div>
+          <div class="summary-time en-font" id="summ-iftar">--:--</div>
+        </div>
       </div>
     </div>
 
@@ -201,7 +210,7 @@
         <div class="dua-card">
           <div class="dua-title">🕋 ৫ ওয়াক্ত নামাজ ট্র্যাকার</div>
           <div class="progress-container"><div class="progress-bar" id="salat-progress"></div></div>
-          <div class="salat-reminder">⚠️ সতর্কতা: নামাজ না পড়ে টিক দেবেন না।</div>
+          <div class="salat-reminder">⚠️ সতর্কতা: নামাজ না পড়ে টিক দেবেন না। আল্লাহ সব দেখছেন।</div>
           <div class="salat-list" id="salat-items-box">
             <div class="salat-item" onclick="toggleSalat('fajr')"><span class="salat-name">ফজর</span><div class="salat-check" id="check-fajr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
             <div class="salat-item" onclick="toggleSalat('dhuhr')"><span class="salat-name">যোহর</span><div class="salat-check" id="check-dhuhr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
@@ -268,14 +277,18 @@ const offsets = {
 
 const districts = Object.keys(offsets).map(name => ({name, en: offsets[name][2]}));
 const hadiths = [
-  { ar: "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ", bn_uccharon: "মান সমা রমাদ্বানা ঈমানান ওয়াহতিসাবান গুফিরা লাহূ মা তাক্বাদ্দামা মিন যামবিহী।", bn: "যে ব্যক্তি ঈমান ও সওয়াবের আশায় রমজানের রোজা রাখবে, তার অতীতের সব গুনাহ ক্ষমা করে দেওয়া হবে।", source: "সহীহ বুখারী: ১৯০১" },
+  { ar: "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّমَ مِنْ ذَنْبِهِ", bn_uccharon: "মান সমা রমাদ্বানা ঈমানান ওয়াহতিসাবান গুফিরা লাহূ মা তাক্বাদ্দামা মিন যামবিহী।", bn: "যে ব্যক্তি ঈমান ও সওয়াবের আশায় রমজানের রোজা রাখবে, তার অতীতের সব গুনাহ ক্ষমা করে দেওয়া হবে।", source: "সহীহ বুখারী: ১৯০১" },
   { ar: "الصِّيَامُ جُنَّةٌ فَلا يَرْفُثْ وَلا يَجْهَلْ", bn_uccharon: "আস-সিয়াকু জুন্নাতুন ফালা ইয়ারফুছ ওয়ালা ইয়াজহাল।", bn: "রোজা হলো ঢাল স্বরূপ। সুতরাং রোজাদার যেন অশ্লীল কথা না বলে এবং জাহেলী আচরণ না করে।", source: "সহীহ বুখারী: ১৮৯৪" }
 ];
 
 let fastingData = [], countdownInterval = null;
 const toBn = s => s.toString().replace(/[0-9]/g, w => ({'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'})[w]);
 const translate = t => toBn(t.replace('AM','ভোর').replace('PM','সন্ধ্যা'));
-const getFormattedDate = () => { const d=new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; };
+
+const getTodayStr = () => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+};
 
 function addMinutes(timeStr, mins) {
   let [h, m] = timeStr.split(':').map(Number);
@@ -297,18 +310,23 @@ const renderZila = f => {
 async function startApp(zila) {
   document.getElementById('loader').style.display = 'flex';
   const off = offsets[zila.name] || [0,0];
-  fastingData = dhakaBase.sahri.map((s, i) => ({
-    date: new Date(2026, 1, 19 + i).toISOString().split('T')[0],
-    hijri_readable: `${i+1} Ramadan 1447 AH`,
-    time: { sah: addMinutes(s, off[0]) + " AM", ift: addMinutes(dhakaBase.iftar[i], off[1]) + " PM" }
-  }));
+  fastingData = dhakaBase.sahri.map((s, i) => {
+    const d = new Date(2026, 1, 19 + i);
+    const dateStr = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    return {
+      date: dateStr,
+      hijri_readable: `${i+1} Ramadan 1447 AH`,
+      time: { sah: addMinutes(s, off[0]) + " AM", ift: addMinutes(dhakaBase.iftar[i], off[1]) + " PM" }
+    };
+  });
 
-  const todayStr = getFormattedDate(), todayIdx = fastingData.findIndex(r => r.date === todayStr);
+  const todayStr = getTodayStr(), todayIdx = fastingData.findIndex(r => r.date === todayStr);
   const row = todayIdx !== -1 ? fastingData[todayIdx] : fastingData[0];
   document.getElementById('city-name').textContent = zila.name;
   const now = new Date();
   document.getElementById('gregorian-display').textContent = toBn(`${now.getDate()} ${['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][now.getMonth()]} ${now.getFullYear()}`);
   document.getElementById('hijri-display').textContent = row.hijri_readable.replace(/[0-9]/g, w => toBn(w));
+  
   const currentRoja = todayIdx !== -1 ? todayIdx + 1 : 1;
   document.getElementById('fast-count').textContent = `রোজা ${toBn(currentRoja)}/৩০`;
   document.getElementById('fast-num').textContent = toBn(currentRoja);
@@ -316,7 +334,7 @@ async function startApp(zila) {
   updateUI(row); renderSchedule(fastingData); setRandomHadith(); loadSalatState();
   document.getElementById('splash').style.display = 'none'; document.getElementById('app').style.display = 'block';
   startCountdown(row);
-  if (!localStorage.getItem('modal_v21')) document.getElementById('update-modal').classList.add('active');
+  if (!localStorage.getItem('modal_v23')) document.getElementById('update-modal').classList.add('active');
   document.getElementById('loader').style.display = 'none';
 }
 
@@ -333,13 +351,13 @@ function switchV(v, b) {
 function updateUI(r) {
   document.getElementById('summ-sahur').textContent = translate(r.time.sah);
   document.getElementById('summ-iftar').textContent = translate(r.time.ift);
-  document.getElementById('duration-text').textContent = `সুবহে সাদিক: ${toBn(r.time.sah.split(' ')[0])}`;
-  document.getElementById('sunset-text').textContent = `সূর্যাস্ত: ${toBn(r.time.ift.split(' ')[0])}`;
+  document.getElementById('duration-text').textContent = `সাহরির শেষ সময়: ${toBn(r.time.sah.split(' ')[0])}`;
+  document.getElementById('sunset-text').textContent = `ইফতারের সময়: ${toBn(r.time.ift.split(' ')[0])}`;
 }
 
 function renderSchedule(data) {
   let h = `<table><thead><tr><th>রোজা</th><th>তারিখ</th><th>সাহরি</th><th>ইফতার</th></tr></thead><tbody>`;
-  const t = getFormattedDate();
+  const t = getTodayStr();
   data.forEach((r, i) => {
     h += `<tr class="${r.date===t?'today-row':''}"><td>${toBn(i+1)}</td><td>${toBn(new Date(r.date).getDate())}</td><td>${translate(r.time.sah)}</td><td>${translate(r.time.ift)}</td></tr>`;
   });
@@ -355,15 +373,15 @@ function setRandomHadith() {
 }
 
 function toggleSalat(id) {
-  const k = `salat_${getFormattedDate()}`; let s = JSON.parse(localStorage.getItem(k)) || {};
+  const k = `salat_${getTodayStr()}`; let s = JSON.parse(localStorage.getItem(k)) || {};
   s[id] = !s[id]; localStorage.setItem(k, JSON.stringify(s)); loadSalatState();
 }
 
-function resetTodaySalat() { localStorage.removeItem(`salat_${getFormattedDate()}`); loadSalatState(); }
+function resetTodaySalat() { localStorage.removeItem(`salat_${getTodayStr()}`); loadSalatState(); }
 
 function loadSalatState() {
   const ids = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
-  const state = JSON.parse(localStorage.getItem(`salat_${getFormattedDate()}`)) || {};
+  const state = JSON.parse(localStorage.getItem(`salat_${getTodayStr()}`)) || {};
   let count = 0;
   ids.forEach(id => {
     const el = document.getElementById(`check-${id}`).parentElement;
@@ -373,7 +391,7 @@ function loadSalatState() {
   document.getElementById('reward-card').style.display = count === 5 ? 'block' : 'none';
 }
 
-function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v21', 'true'); }
+function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v23', 'true'); }
 
 function startCountdown(row) {
   if (countdownInterval) clearInterval(countdownInterval);
