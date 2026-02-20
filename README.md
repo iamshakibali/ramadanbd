@@ -1,20 +1,11 @@
-পবিত্র রমজান ২০২৬ ক্যালেন্ডার
+Ramadan 2026 Calendar
 
-এটি একটি আধুনিক এবং সুপার ফাস্ট রমজান ক্যালেন্ডার ওয়েবসাইট যা বাংলাদেশের ৬৪টি জেলার সঠিক সাহরি এবং ইফতারের সময় দেখায়। এতে আজকের হাদিস এবং প্রয়োজনীয় দোয়াগুলো সুন্দরভাবে সাজানো আছে।
+This is a modern and super fast Ramadan calendar website showing accurate Sehri and Iftar timings for all 64 districts of Bangladesh. It includes daily Hadiths and essential prayers organized beautifully for easy access.
 
-লাইভ ডেমো
+Check out the live website here: iamshakibali.github.io/ramadanbd
 
-আপনি এই লিঙ্কে ক্লিক করে ওয়েবসাইটটি দেখতে পারেন: iamshakibali.github.io/ramadanbd
+The application features Hadiths that rotate daily to provide fresh inspiration. User district selections are saved automatically to ensure the correct timings appear instantly on every visit. The entire site is optimized for speed and works perfectly on both desktop computers and mobile phones.
 
-ফিচারসমূহ
-
-প্রতিদিনের হাদিস পরিবর্তন হওয়ার সুবিধা আছে।
-ব্যবহারকারীর জেলা অটোমেটিক সেভ হয়ে থাকে।
-খুবই লাইটওয়েট এবং ফাস্ট লোডিং।
-পিসি এবং মোবাইল সব ডিভাইসের জন্য রেসপনসিভ।
-
-ক্রেডিট
-
-এই ওয়েবসাইটটি ভাইবকোড করেছেন শাকিব।
+This website was vibecoded by Shakib.
 
 Copyright 2026 Shakib. All rights reserved.
