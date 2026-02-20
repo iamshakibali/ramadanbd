@@ -63,13 +63,12 @@
   .hero-card label { font-size: 12px; color: #334155; font-weight: 600; }
   .hero-card .event { font-size: 16px; font-weight: 800; color: #064E3B; }
   .hero-card .time { font-size: 22px; font-weight: 800; font-family: 'Inter', sans-serif; color: #0F172A; }
-  .hero-card .sub { font-size: 11px; color: #475569; font-weight: 600; }
+  .hero-card .sub { font-size: 10px; color: #475569; font-weight: 600; }
 
-  /* Separate Boxes for Summary Info */
   .summary-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-  .summary-box { background: white; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-  .summary-label { font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 4px; }
-  .summary-time { font-size: 16px; font-weight: 800; font-family: 'Inter', sans-serif; color: #064E3B; }
+  .summary-box { background: white; border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
+  .summary-label { font-size: 10px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px; }
+  .summary-time { font-size: 14px; font-weight: 800; font-family: 'Inter', sans-serif; color: #064E3B; }
 
   .floating-nav { display: flex; background: #E2E8F0; padding: 6px; border-radius: 20px; gap: 5px; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 1000; backdrop-filter: blur(15px); }
   .nav-btn { flex: 1; border: none; padding: 12px 5px; border-radius: 15px; font-family: 'Tiro Bangla', serif; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #475569; transition: all 0.3s; }
@@ -210,7 +209,7 @@
         <div class="dua-card">
           <div class="dua-title">🕋 ৫ ওয়াক্ত নামাজ ট্র্যাকার</div>
           <div class="progress-container"><div class="progress-bar" id="salat-progress"></div></div>
-          <div class="salat-reminder">⚠️ সতর্কতা: নামাজ না পড়ে টিক দেবেন না। আল্লাহ সব দেখছেন।</div>
+          <div class="salat-reminder">⚠️ সতর্কতা: নামাজ না পড়ে টিক দেবেন না।</div>
           <div class="salat-list" id="salat-items-box">
             <div class="salat-item" onclick="toggleSalat('fajr')"><span class="salat-name">ফজর</span><div class="salat-check" id="check-fajr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
             <div class="salat-item" onclick="toggleSalat('dhuhr')"><span class="salat-name">যোহর</span><div class="salat-check" id="check-dhuhr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
@@ -277,7 +276,7 @@ const offsets = {
 
 const districts = Object.keys(offsets).map(name => ({name, en: offsets[name][2]}));
 const hadiths = [
-  { ar: "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّমَ مِنْ ذَنْبِهِ", bn_uccharon: "মান সমা রমাদ্বানা ঈমানান ওয়াহতিসাবান গুফিরা লাহূ মা তাক্বাদ্দামা মিন যামবিহী।", bn: "যে ব্যক্তি ঈমান ও সওয়াবের আশায় রমজানের রোজা রাখবে, তার অতীতের সব গুনাহ ক্ষমা করে দেওয়া হবে।", source: "সহীহ বুখারী: ১৯০১" },
+  { ar: "مَنْ صَامَ رَمَضَانَ إِيمَانًا وَاحْتِسَابًا غُفِرَ لَهُ مَا تَقَدَّمَ مِنْ ذَنْبِهِ", bn_uccharon: "মান সমা রমাদ্বানা ঈমানান ওয়াহতিসাবান গুফিরা লাহূ মা তাক্বাদ্দামা মিন যামবিহী।", bn: "যে ব্যক্তি ঈমান ও সওয়াবের আশায় রমজানের রোজা রাখবে, তার অতীতের সব গুনাহ ক্ষমা করে দেওয়া হবে।", source: "সহীহ বুখারী: ১৯০১" },
   { ar: "الصِّيَامُ جُنَّةٌ فَلا يَرْفُثْ وَلا يَجْهَلْ", bn_uccharon: "আস-সিয়াকু জুন্নাতুন ফালা ইয়ারফুছ ওয়ালা ইয়াজহাল।", bn: "রোজা হলো ঢাল স্বরূপ। সুতরাং রোজাদার যেন অশ্লীল কথা না বলে এবং জাহেলী আচরণ না করে।", source: "সহীহ বুখারী: ১৮৯৪" }
 ];
 
@@ -326,7 +325,6 @@ async function startApp(zila) {
   const now = new Date();
   document.getElementById('gregorian-display').textContent = toBn(`${now.getDate()} ${['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'][now.getMonth()]} ${now.getFullYear()}`);
   document.getElementById('hijri-display').textContent = row.hijri_readable.replace(/[0-9]/g, w => toBn(w));
-  
   const currentRoja = todayIdx !== -1 ? todayIdx + 1 : 1;
   document.getElementById('fast-count').textContent = `রোজা ${toBn(currentRoja)}/৩০`;
   document.getElementById('fast-num').textContent = toBn(currentRoja);
@@ -334,7 +332,7 @@ async function startApp(zila) {
   updateUI(row); renderSchedule(fastingData); setRandomHadith(); loadSalatState();
   document.getElementById('splash').style.display = 'none'; document.getElementById('app').style.display = 'block';
   startCountdown(row);
-  if (!localStorage.getItem('modal_v23')) document.getElementById('update-modal').classList.add('active');
+  if (!localStorage.getItem('modal_v25')) document.getElementById('update-modal').classList.add('active');
   document.getElementById('loader').style.display = 'none';
 }
 
@@ -391,7 +389,7 @@ function loadSalatState() {
   document.getElementById('reward-card').style.display = count === 5 ? 'block' : 'none';
 }
 
-function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v23', 'true'); }
+function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v25', 'true'); }
 
 function startCountdown(row) {
   if (countdownInterval) clearInterval(countdownInterval);
