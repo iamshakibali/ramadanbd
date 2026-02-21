@@ -32,7 +32,7 @@
   .onubad { font-size: 15px; color: #1E293B; font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
   .source { font-size: 12px; color: var(--accent-green); font-weight: 700; opacity: 0.8; }
 
-  #loader { position: fixed; inset: 0; background: var(--bg); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 2000; font-weight: bold; font-size: 1.2rem; gap: 10px; }
+  #loader { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; font-weight: bold; font-size: 1.2rem; }
   .spinner { width: 40px; height: 40px; border: 4px solid #ddd; border-top: 4px solid var(--accent-green); border-radius: 50%; animation: spin 0.8s linear infinite; }
 
   #splash { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1500; padding: 20px; }
@@ -223,9 +223,9 @@
     <div class="modal-content">
       <h2 class="modal-title">সার্ভার কানেক্টেড</h2>
       <div class="modal-body">
-        <div class="update-item"><span>✓</span> Sahri Niyot-er Arabic font fixed.</div>
-        <div class="update-item"><span>✓</span> Extra Bangla borno gulo soriye clean kora hoyeche.</div>
-        <div class="update-item"><span>✓</span> Ajker (Feb 21) 3rd Roja calculation 100% accurate ache.</div>
+        <div class="update-item"><span>✓</span> Schedule text errors fixed (Bangla Month Names).</div>
+        <div class="update-item"><span>✓</span> Today (Feb 21) is set to 3rd Ramadan.</div>
+        <div class="update-item"><span>✓</span> Niyot Arabic font boxes cleanup done.</div>
       </div>
       <button class="btn-primary" onclick="closeUpdateModal()">চালিয়ে যান</button>
     </div>
@@ -368,9 +368,10 @@ function updateUI(r) {
 function renderSchedule(data) {
   let h = `<table><thead><tr><th>রোজা</th><th>তারিখ</th><th>সাহরি</th><th>ইফতার</th></tr></thead><tbody>`;
   const t = getTodayStr();
+  const months = ['জানু','ফেব্রু','মার্চ'];
   data.forEach((r, i) => {
     const d = new Date(r.date);
-    h += `<tr class="${r.date===t?'today-row':''}"><td>${toBn(i+1)}</td><td>${toBn(d.getDate())} ${['জানু','ফেব্রu','মার্চ'][d.getMonth()]}</td><td>${translate(r.time.sah)}</td><td>${translate(r.time.ift)}</td></tr>`;
+    h += `<tr class="${r.date===t?'today-row':''}"><td>${toBn(i+1)}</td><td>${toBn(d.getDate())} ${months[d.getMonth()]}</td><td>${translate(r.time.sah)}</td><td>${translate(r.time.ift)}</td></tr>`;
   });
   document.getElementById('table-container').innerHTML = h + '</tbody></table>';
 }
@@ -402,7 +403,7 @@ function loadSalatState() {
   document.getElementById('reward-card').style.display = count === 5 ? 'block' : 'none';
 }
 
-function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v26_final_niyot', 'true'); }
+function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v26_final_fix_v3', 'true'); }
 
 function startCountdown(row) {
   if (countdownInterval) clearInterval(countdownInterval);
