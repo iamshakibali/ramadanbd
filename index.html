@@ -4,234 +4,260 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>রমজান ২০২৬ — বাংলাদেশ</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Inter:wght@400;700;800&family=Amiri&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tiro+Bangla&family=Inter:wght@400;500;600;700;800&family=Amiri&display=swap" rel="stylesheet">
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          bangla: ['"Tiro Bangla"', 'serif'],
+          sans: ['Inter', 'sans-serif'],
+          arabic: ['Amiri', 'serif'],
+        },
+        colors: {
+          bgCream: '#EAE6D9',
+          cardWhite: '#FCFBF8',
+          darkElement: '#1A1C16',
+          accentLime: '#C1DA4F',
+          accentSoft: '#E6ECD1',
+          textMain: '#2D3028',
+          textMuted: '#84877C'
+        },
+        borderRadius: {
+          '4xl': '2rem',
+          '5xl': '2.5rem'
+        }
+      }
+    }
+  }
+</script>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --bg: #F0F9F4;
-    --card-bg: #FFFFFF;
-    --text-main: #1A2F23;
-    --text-muted: #64748B;
-    --accent-green: #10B981;
-    --border: #E2E8F0;
-    --sahur-grad: #DCFCE7;
-    --iftar-grad: #E2F0D9;
-    --status-bg: #064E3B;
-  }
-  body {
-    font-family: 'Tiro Bangla', serif;
-    background-color: var(--bg);
-    color: var(--text-main);
-    min-height: 100vh;
-    padding-bottom: 110px;
-    -webkit-font-smoothing: antialiased;
-  }
-  .en-font { font-family: 'Inter', sans-serif; letter-spacing: -0.02em; }
-  .ar-font { font-family: 'Amiri', serif; direction: rtl; unicode-bidi: isolate; font-size: 1.5rem; line-height: 1.8; color: #064E3B; margin-bottom: 10px; display: block; text-align: right; }
-  .onubad { font-size: 15px; color: #1E293B; font-weight: 500; margin-bottom: 8px; line-height: 1.5; }
-  .source { font-size: 12px; color: var(--accent-green); font-weight: 700; opacity: 0.8; }
-
-  #loader { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 2000; font-weight: bold; font-size: 1.2rem; }
-  .spinner { width: 40px; height: 40px; border: 4px solid #ddd; border-top: 4px solid var(--accent-green); border-radius: 50%; animation: spin 0.8s linear infinite; }
-
-  #splash { position: fixed; inset: 0; background: var(--bg); display: flex; align-items: center; justify-content: center; z-index: 1500; padding: 20px; }
-  .splash-card { background: var(--card-bg); border-radius: 28px; padding: 25px; width: 100%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.03); text-align: center; }
-  .zila-list { max-height: 300px; overflow-y: auto; border: 1px solid var(--border); border-radius: 12px; margin-top: 15px; text-align: left; }
-  .zila-item { padding: 12px 15px; cursor: pointer; border-bottom: 1px solid #f9f9f9; font-weight: 600; font-size: 15px; }
-  .zila-item:hover { background: var(--bg); color: var(--accent-green); }
-
-  #app { display: none; max-width: 1100px; margin: 0 auto; padding: 15px; }
-
-  .status-card { background: var(--status-bg); border-radius: 16px; padding: 10px 12px; margin-bottom: 15px; color: white; display: flex; align-items: center; justify-content: space-between; gap: 8px; box-shadow: 0 4px 20px rgba(6, 78, 59, 0.1); }
-  .status-left { flex: 1.5; display: flex; flex-direction: column; }
-  .status-left .hijri { font-size: 12px; font-weight: 800; color: #10B981; }
-  .status-left .count { font-size: 10px; opacity: 0.9; font-weight: 700; }
-  .status-mid { flex: 1; text-align: center; font-size: 13px; font-weight: 800; border-left: 1px solid rgba(255,255,255,0.1); border-right: 1px solid rgba(255,255,255,0.1); padding: 0 5px; }
-  .status-right { flex: 1.5; display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
-  .city-box { text-align: right; line-height: 1.1; cursor: pointer; }
-  .city-box .city { font-size: 12px; font-weight: 800; display: block; }
-  .city-box .change { font-size: 8px; color: #10B981; text-decoration: underline; font-weight: 700; }
-  .status-badge { background: #10B981; min-width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; color: #064E3B; }
-
-  .hero-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
-  .hero-card { border-radius: 18px; padding: 15px; height: 140px; display: flex; flex-direction: column; justify-content: space-between; border: 2px solid transparent; }
-  .card-sahur { background: var(--sahur-grad); }
-  .card-iftar { background: var(--iftar-grad); }
-  .hero-card label { font-size: 12px; color: #334155; font-weight: 600; }
-  .hero-card .event { font-size: 16px; font-weight: 800; color: #064E3B; }
-  .hero-card .time { font-size: 22px; font-weight: 800; font-family: 'Inter', sans-serif; color: #0F172A; }
-  .hero-card .sub { font-size: 10px; color: #475569; font-weight: 600; }
-
-  .summary-container { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-  .summary-box { background: white; border-radius: 14px; padding: 10px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.02); }
-  .summary-label { font-size: 10px; color: var(--text-muted); font-weight: 700; margin-bottom: 2px; }
-  .summary-time { font-size: 14px; font-weight: 800; font-family: 'Inter', sans-serif; color: #064E3B; }
-
-  .floating-nav { display: flex; background: #E2E8F0; padding: 6px; border-radius: 20px; gap: 5px; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 450px; box-shadow: 0 10px 40px rgba(0,0,0,0.15); z-index: 1000; backdrop-filter: blur(15px); }
-  .nav-btn { flex: 1; border: none; padding: 12px 5px; border-radius: 15px; font-family: 'Tiro Bangla', serif; font-size: 13px; font-weight: 700; cursor: pointer; background: transparent; color: #475569; transition: all 0.3s; }
-  .nav-btn.active { background: white; color: var(--accent-green); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
-
-  .table-wrapper { background: white; border-radius: 16px; overflow-x: auto; border: 1px solid var(--border); }
-  table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 320px; }
-  th { background: #F0FDF4; padding: 10px; text-align: left; color: #064E3B; font-weight: 800; }
-  td { padding: 10px; border-bottom: 1px solid #F1F5F9; font-weight: 500; }
-  tr.today-row { background: #F0FDF4; border-left: 5px solid var(--accent-green); }
-
-  .dua-card { background: white; border-radius: 16px; padding: 18px; margin-bottom: 12px; border: 1px solid var(--border); }
-  .dua-title { font-size: 15px; font-weight: 800; color: #065F46; margin-bottom: 10px; border-bottom: 1px solid var(--border); padding-bottom: 6px; }
-
-  .salat-list { display: flex; flex-direction: column; gap: 8px; }
-  .salat-item { display: flex; align-items: center; justify-content: space-between; background: #F8FAFC; padding: 12px 16px; border-radius: 12px; cursor: pointer; }
-  .salat-item.completed { background: #DCFCE7; }
-  .salat-check { width: 20px; height: 20px; border-radius: 6px; border: 2px solid #CBD5E1; display: flex; align-items: center; justify-content: center; background: white; }
-  .completed .salat-check { background: #10B981; border-color: #10B981; }
-  .salat-check svg { display: none; width: 12px; height: 12px; color: white; }
-  .completed .salat-check svg { display: block; }
-  .progress-container { background: #E2E8F0; border-radius: 6px; height: 6px; width: 100%; margin-bottom: 10px; overflow: hidden; }
-  .progress-bar { background: #10B981; height: 100%; width: 0%; transition: width 0.4s ease; }
-  .salat-reminder { background: #F0FDF4; color: #047857; padding: 8px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-bottom: 10px; border: 1px solid #BBF7D0; text-align: center; }
+  body { font-family: 'Tiro Bangla', serif; background-color: #EAE6D9; -webkit-font-smoothing: antialiased; }
+  .en-font { font-family: 'Inter', sans-serif; }
+  .ar-font { font-family: 'Amiri', serif; direction: rtl; }
   
-  #reward-card { background: linear-gradient(135deg, #059669 0%, #064E3B 100%); color: white; display: none; padding: 15px; border-radius: 16px; text-align: center; margin-bottom: 10px; animation: bounceIn 0.8s; }
-  .reset-btn { background: rgba(255,255,255,0.2); border: 1px solid white; color: white; padding: 4px 10px; border-radius: 6px; font-size: 11px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-
-  .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(5px); display: flex; align-items: center; justify-content: center; z-index: 3000; padding: 20px; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
-  .modal-overlay.active { opacity: 1; visibility: visible; }
-  .modal-content { background: white; width: 100%; max-width: 420px; border-radius: 20px; padding: 25px; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); text-align: center; }
-  .modal-title { font-size: 18px; font-weight: 800; color: #064E3B; margin-bottom: 15px; }
-  .modal-body { text-align: left; margin-bottom: 20px; font-size: 14px; color: #475569; }
-  .update-item { display: flex; gap: 8px; margin-bottom: 8px; line-height: 1.4; }
-  .update-item span { color: #10B981; font-weight: bold; }
-  .btn-primary { background: #064E3B; color: white; border: none; padding: 12px; border-radius: 10px; font-size: 14px; font-weight: 700; cursor: pointer; width: 100%; }
-
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #D1CDBC; border-radius: 10px; }
+  
+  .spinner { border: 3px solid #D1CDBC; border-top: 3px solid #1A1C16; border-radius: 50%; width: 40px; height: 40px; animation: spin 1s linear infinite; }
   @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-  @keyframes bounceIn { 0% { transform: scale(0.3); opacity: 0; } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
-  footer { text-align: center; padding: 20px; font-size: 12px; border-top: 1px solid var(--border); margin-top: 20px; color: #64748B; }
-
-  @media (min-width: 992px) { .layout-grid { grid-template-columns: 1fr 1fr; } }
+  
+  .nav-btn.active { background-color: #1A1C16; color: #C1DA4F; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+  
+  .hidden-view { display: none !important; }
 </style>
 </head>
-<body>
+<body class="text-textMain pb-32">
 
-<div id="loader">
-  <div class="spinner"></div>
-  সময়সূচী লোড হচ্ছে...
+<div id="loader" class="fixed inset-0 bg-bgCream flex flex-col items-center justify-center z-50">
+  <div class="spinner mb-4"></div>
+  <div class="text-lg font-bold text-darkElement">সময়সূচী লোড হচ্ছে...</div>
 </div>
 
-<div id="splash" style="display:none;">
-  <div class="splash-card">
-    <h1 class="splash-title" style="color: #064E3B; margin-bottom: 15px; font-size: 18px;">রমজান ক্যালেন্ডার ২০২৬</h1>
-    <input type="text" id="zila-search" style="width:100%; padding:12px; border-radius:10px; border:1px solid #ddd; outline:none;" placeholder="জেলা খুঁজুন (Bangla or English)...">
-    <div id="zila-list" class="zila-list"></div>
+<div id="splash" class="fixed inset-0 bg-bgCream flex items-center justify-center z-40 hidden p-4">
+  <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-6 md:p-8 w-full max-w-md shadow-xl text-center flex flex-col max-h-[90vh]">
+    <h1 class="text-2xl font-bold text-darkElement mb-6 md:mb-8">রমজান ক্যালেন্ডার ২০২৬</h1>
+    <div class="relative mb-5 md:mb-6">
+      <input type="text" id="zila-search" class="w-full pl-12 pr-4 py-3 md:py-4 bg-bgCream border-none rounded-2xl focus:outline-none focus:ring-2 focus:ring-accentLime text-textMain transition-all font-semibold" placeholder="জেলা খুঁজুন...">
+      <svg class="w-5 h-5 absolute left-4 top-3.5 md:top-4 text-textMuted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+    </div>
+    <div id="zila-list" class="flex-1 overflow-y-auto rounded-2xl text-left"></div>
   </div>
 </div>
 
-<div id="app">
-  <div class="status-card">
-    <div class="status-left">
-      <div class="hijri" id="hijri-display">--- Ramadan ---- AH</div>
-      <div class="count" id="fast-count">রোজা --/৩০</div>
+<div id="app" class="hidden max-w-2xl mx-auto p-4 pt-4 md:pt-6">
+  
+  <div class="bg-darkElement rounded-3xl md:rounded-4xl p-5 md:p-6 mb-5 md:mb-6 text-cardWhite flex items-center justify-between shadow-lg">
+    <div class="flex flex-col">
+      <span class="text-accentLime font-bold text-xs md:text-sm tracking-wide" id="hijri-display">--- রমজান ---- হিজরি</span>
+      <span class="text-[11px] md:text-xs font-semibold text-cardWhite/70 mt-1" id="fast-count">রোজা --/৩০</span>
     </div>
-    <div class="status-mid" id="fast-status">রোজা চলছে</div>
-    <div class="status-right">
-      <div class="city-box" id="change-city-btn">
-        <span class="city" id="city-name">ঢাকা</span>
-        <span class="change">পরিবর্তন</span>
+    <div class="text-xs md:text-sm font-bold border-x border-cardWhite/10 px-3 md:px-4 text-center">রোজা চলছে</div>
+    <div class="flex items-center gap-2 md:gap-3 text-right">
+      <div class="flex flex-col cursor-pointer group" id="change-city-btn">
+        <span class="text-xs md:text-sm font-bold block text-cardWhite transition-colors" id="city-name">ঢাকা</span>
+        <span class="text-[9px] md:text-[10px] text-accentLime font-semibold mt-0.5">পরিবর্তন</span>
       </div>
-      <div class="status-badge" id="fast-num">--</div>
+      <div class="bg-accentLime text-darkElement w-8 h-8 md:w-10 md:h-10 rounded-xl md:rounded-2xl flex items-center justify-center font-bold text-base md:text-lg" id="fast-num">--</div>
     </div>
   </div>
 
-  <div class="layout-grid">
-    <div id="main-view-col">
-      <div class="hero-container">
-        <div class="hero-card card-sahur" id="card-timer">
-          <div><label>এখন সময়</label><div class="event" id="timer-label">সাহরি বাকি</div></div>
-          <div class="time en-font" id="countdown-timer">০০:০০:০০</div>
-          <div class="sub" id="duration-text">সাহরির শেষ সময়</div>
+  <div id="top-timers-section">
+    <div class="grid grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-6">
+      <div class="bg-accentLime rounded-3xl md:rounded-4xl p-4 md:p-6 flex flex-col justify-between h-32 md:h-40 relative overflow-hidden shadow-sm">
+        <div class="relative z-10">
+          <span class="text-[10px] md:text-xs text-darkElement/70 font-bold uppercase tracking-wider">এখন সময়</span>
+          <div class="text-darkElement font-extrabold text-lg md:text-xl mt-0.5 md:mt-1" id="timer-label">সাহরি বাকি</div>
         </div>
-        <div class="hero-card card-iftar" id="card-next">
-          <div><label>পরবর্তী ইভেন্ট</label><div class="event" id="next-event-label">ইফতার শুরু</div></div>
-          <div class="time en-font" id="next-event-time">--:--</div>
-          <div class="sub" id="sunset-text">ইফতারের সময়</div>
+        <div class="relative z-10">
+          <div class="text-2xl md:text-3xl font-extrabold text-darkElement en-font tracking-tighter" id="countdown-timer">০০:০০:০০</div>
+          <div class="text-[10px] md:text-[11px] text-darkElement/70 font-bold mt-1" id="duration-text">সাহরির শেষ সময়</div>
         </div>
       </div>
-      <div class="summary-container">
-        <div class="summary-box">
-          <div class="summary-label">সাহরি শেষ</div>
-          <div class="summary-time en-font" id="summ-sahur">--:--</div>
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-4 md:p-6 flex flex-col justify-between h-32 md:h-40 relative overflow-hidden shadow-sm">
+        <div class="relative z-10">
+          <span class="text-[10px] md:text-xs text-textMuted font-bold uppercase tracking-wider">পরবর্তী ইভেন্ট</span>
+          <div class="text-darkElement font-extrabold text-lg md:text-xl mt-0.5 md:mt-1" id="next-event-label">ইফতার শুরু</div>
         </div>
-        <div class="summary-box">
-          <div class="summary-label">ইফতার শুরু</div>
-          <div class="summary-time en-font" id="summ-iftar">--:--</div>
+        <div class="relative z-10">
+          <div class="text-2xl md:text-3xl font-extrabold text-darkElement en-font tracking-tighter" id="next-event-time">--:--</div>
+          <div class="text-[10px] md:text-[11px] text-textMuted font-bold mt-1" id="sunset-text">ইফতারের সময়</div>
         </div>
       </div>
     </div>
 
-    <div>
-      <div id="view-hadith">
-        <div class="dua-card">
-          <div class="dua-title">📖 আজকের হাদিস</div>
-          <div class="ar-font" id="hadith-ar"></div>
-          <div class="onubad" id="hadith-bn"></div>
-          <div class="source" id="hadith-source"></div>
+    <div class="grid grid-cols-2 gap-3 md:gap-4 mb-6 md:mb-8">
+      <div class="bg-cardWhite rounded-2xl md:rounded-3xl p-3 md:p-4 text-center shadow-sm">
+        <div class="text-[11px] md:text-xs text-textMuted font-bold mb-1">সাহরি শেষ</div>
+        <div class="text-darkElement font-extrabold en-font text-base md:text-lg" id="summ-sahur">--:--</div>
+      </div>
+      <div class="bg-cardWhite rounded-2xl md:rounded-3xl p-3 md:p-4 text-center shadow-sm">
+        <div class="text-[11px] md:text-xs text-textMuted font-bold mb-1">ইফতার শুরু</div>
+        <div class="text-darkElement font-extrabold en-font text-base md:text-lg" id="summ-iftar">--:--</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative min-h-[400px]">
+    
+    <div id="view-hadith" class="space-y-4 transition-opacity duration-300">
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-5 md:p-6 shadow-sm">
+        <div class="flex items-center gap-3 mb-4 md:mb-5">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">📖</div>
+          <h2 class="font-extrabold text-darkElement text-base md:text-lg">আজকের হাদিস</h2>
         </div>
-        <div class="dua-card">
-          <div class="dua-title">🌙 সাহরির নিয়ত</div>
-          <div class="ar-font">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ الْمُبَارَكِ فَرْضًا لَكَ يَا اللهُ فَتَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِیعُ الْعَلِيْمُ</div>
-          <div class="onubad"><strong>অনুবাদ:</strong> হে আল্লাহ! আমি আগামীকাল পবিত্র রমজানের রোজা রাখার নিয়ত করলাম। তুমি আমার পক্ষ থেকে তা কবুল কর, নিশ্চয়ই তুমি সর্বশ্রোতা ও সর্বজ্ঞ।</div>
-        </div>
-        <div class="dua-card">
-          <div class="dua-title">🤲 ইফতারের দু'আ</div>
-          <div class="ar-font">اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</div>
-          <div class="onubad"><strong>অনুবাদ:</strong> হে আল্লাহ! আমি তোমারই সন্তুষ্টির জন্য রোজা রেখেছি এবং তোমারই দেয়া রিজিক দ্বারা ইফতার করছি।</div>
-        </div>
+        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right" id="hadith-ar"></p>
+        <p class="text-textMain text-sm md:text-[15px] leading-relaxed mb-4 font-medium" id="hadith-bn"></p>
+        <p class="text-[11px] md:text-xs font-bold text-textMuted bg-bgCream inline-block px-3 py-1.5 rounded-full" id="hadith-source"></p>
       </div>
 
-      <div id="view-salat" style="display: none;">
-        <div id="reward-card">
-          <h2 style="font-size: 18px;">মাশাআল্লাহ! 🎉</h2>
-          <p style="margin-top: 5px; font-size: 14px;">আপনি আজকের ৫ ওয়াক্ত নামাজ সম্পন্ন করেছেন।</p>
-          <button class="reset-btn" onclick="resetTodaySalat()">রিসেট করুন</button>
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-5 md:p-6 shadow-sm">
+        <div class="flex items-center gap-3 mb-4 md:mb-5">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">🌙</div>
+          <h2 class="font-extrabold text-darkElement text-base md:text-lg">সাহরির নিয়ত</h2>
         </div>
-        <div class="dua-card">
-          <div class="dua-title">🕋 ৫ ওয়াক্ত নামাজ ট্র্যাকার</div>
-          <div class="progress-container"><div class="progress-bar" id="salat-progress"></div></div>
-          <div class="salat-reminder">⚠️ সতর্কতা: নামাজ না পড়ে টিক দেবেন না।</div>
-          <div class="salat-list" id="salat-items-box">
-            <div class="salat-item" onclick="toggleSalat('fajr')"><span class="salat-name">ফজর</span><div class="salat-check" id="check-fajr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
-            <div class="salat-item" onclick="toggleSalat('dhuhr')"><span class="salat-name">যোহর</span><div class="salat-check" id="check-dhuhr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
-            <div class="salat-item" onclick="toggleSalat('asr')"><span class="salat-name">আসর</span><div class="salat-check" id="check-asr"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
-            <div class="salat-item" onclick="toggleSalat('maghrib')"><span class="salat-name">মাগরিব</span><div class="salat-check" id="check-maghrib"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
-            <div class="salat-item" onclick="toggleSalat('isha')"><span class="salat-name">এশা ও তারাবি</span><div class="salat-check" id="check-isha"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg></div></div>
+        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ الْمُبَارَكِ فَرْضًا لَكَ يَا اللهُ فَتَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِیعُ الْعَلِيْمُ</p>
+        <p class="text-textMain text-sm md:text-[15px] leading-relaxed font-medium"><strong class="text-darkElement font-bold">অনুবাদ:</strong> হে আল্লাহ! আমি আগামীকাল পবিত্র রমজানের রোজা রাখার নিয়ত করলাম। তুমি আমার পক্ষ থেকে তা কবুল কর, নিশ্চয়ই তুমি সর্বশ্রোতা ও সর্বজ্ঞ।</p>
+      </div>
+
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-5 md:p-6 shadow-sm">
+        <div class="flex items-center gap-3 mb-4 md:mb-5">
+          <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">🤲</div>
+          <h2 class="font-extrabold text-darkElement text-base md:text-lg">ইফতারের দু'আ</h2>
+        </div>
+        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
+        <p class="text-textMain text-sm md:text-[15px] leading-relaxed font-medium"><strong class="text-darkElement font-bold">অনুবাদ:</strong> হে আল্লাহ! আমি তোমারই সন্তুষ্টির জন্য রোজা রেখেছি এবং তোমারই দেয়া রিজিক দ্বারা ইফতার করছি।</p>
+      </div>
+    </div>
+
+    <div id="view-prayer" class="hidden-view space-y-4 transition-opacity duration-300">
+      <div class="bg-darkElement rounded-3xl md:rounded-4xl p-6 md:p-8 text-cardWhite flex flex-col items-center justify-center relative shadow-lg">
+        <span class="text-xs md:text-sm text-cardWhite/60 font-bold mb-1 md:mb-2 tracking-wide">পরবর্তী নামাজ</span>
+        <div class="text-3xl md:text-4xl font-extrabold mb-1 md:mb-2" id="next-prayer-name">--</div>
+        <div class="text-2xl md:text-3xl font-extrabold en-font tracking-tight mb-3 text-accentLime" id="prayer-countdown">০০:০০:০০</div>
+        <div class="text-xs md:text-sm font-bold bg-cardWhite/10 px-4 py-2 rounded-full" id="next-prayer-time">সময়: --:--</div>
+      </div>
+      
+      <div id="reward-card" class="bg-accentLime text-darkElement p-5 md:p-6 rounded-3xl md:rounded-4xl text-center shadow-sm hidden">
+        <h2 class="text-xl md:text-2xl font-extrabold mb-2">মাশাআল্লাহ! 🎉</h2>
+        <p class="text-xs md:text-sm font-bold opacity-80 mb-4 md:mb-5">আপনি আজকের ৫ ওয়াক্ত নামাজ সম্পন্ন করেছেন।</p>
+        <button class="bg-darkElement text-accentLime px-5 py-2.5 md:px-6 md:py-3 rounded-full text-xs md:text-sm font-bold hover:opacity-90 transition-opacity" onclick="resetTodaySalat()">রিসেট করুন</button>
+      </div>
+
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-5 md:p-6 shadow-sm">
+        <div class="flex items-center justify-between mb-5 md:mb-6">
+          <div class="flex items-center gap-2 md:gap-3">
+            <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">🕌</div>
+            <h2 class="font-extrabold text-darkElement text-base md:text-lg">নামাজ ও ট্র্যাকার</h2>
           </div>
+          <button onclick="openPrayerModal()" class="bg-bgCream text-darkElement px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold flex items-center gap-1.5 md:gap-2 hover:bg-[#D1CDBC] transition-colors">
+            <svg class="w-3.5 h-3.5 md:w-4 md:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            সেটিং
+          </button>
+        </div>
+
+        <div class="w-full bg-bgCream rounded-full h-2 md:h-3 mb-3 md:mb-4 overflow-hidden">
+          <div class="bg-accentLime h-full rounded-full transition-all duration-500 w-0" id="salat-progress"></div>
+        </div>
+        
+        <div class="text-textMuted text-[10px] md:text-xs font-bold mb-4 md:mb-6 text-center">
+          ⚠️ নামাজ না পড়ে টিক দেবেন না
+        </div>
+
+        <div class="flex flex-col gap-2 md:gap-3" id="prayer-times-list">
+          <div class="text-center text-xs md:text-sm font-bold text-textMuted py-4">লোড হচ্ছে...</div>
         </div>
       </div>
-      <div id="view-schedule" style="display: none;">
-        <div class="table-wrapper" id="table-container"></div>
+    </div>
+
+    <div id="view-schedule" class="hidden-view transition-opacity duration-300">
+      <div class="bg-cardWhite rounded-3xl md:rounded-4xl overflow-hidden shadow-sm p-1 md:p-2">
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs md:text-sm text-left whitespace-nowrap">
+            <thead class="text-textMuted font-bold border-b-2 border-bgCream">
+              <tr>
+                <th class="px-4 py-3 md:px-5 md:py-4">রোজা</th>
+                <th class="px-4 py-3 md:px-5 md:py-4">তারিখ</th>
+                <th class="px-4 py-3 md:px-5 md:py-4">সাহরি</th>
+                <th class="px-4 py-3 md:px-5 md:py-4">ইফতার</th>
+              </tr>
+            </thead>
+            <tbody id="table-container" class="divide-y divide-bgCream">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="prayer-modal" class="fixed inset-0 bg-darkElement/40 backdrop-blur-sm z-50 hidden flex flex-col items-center justify-center p-4">
+    <div class="bg-cardWhite rounded-4xl w-full max-w-sm p-6 md:p-8 shadow-2xl">
+      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-5 md:mb-6 text-center">নামাজের সময় সেটিং</h3>
+      
+      <div class="flex gap-2 mb-5 md:mb-6 bg-bgCream p-1.5 rounded-full">
+        <button id="mode-auto" class="flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold bg-darkElement shadow text-accentLime transition-all" onclick="setPrayerMode('auto')">অটোমেটিক</button>
+        <button id="mode-manual" class="flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold text-textMuted transition-all" onclick="setPrayerMode('manual')">ম্যানুয়াল</button>
+      </div>
+
+      <div id="manual-inputs" class="space-y-3 md:space-y-4 hidden mb-5 md:mb-6">
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">ফজর</label><input type="time" id="input-Fajr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">সূর্যোদয়</label><input type="time" id="input-Sunrise" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">যোহর</label><input type="time" id="input-Dhuhr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">আসর</label><input type="time" id="input-Asr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">মাগরিব</label><input type="time" id="input-Maghrib" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">এশা</label><input type="time" id="input-Isha" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+      </div>
+
+      <div class="flex gap-2 md:gap-3">
+        <button class="flex-1 py-3 md:py-4 bg-bgCream text-textMain rounded-full font-bold text-xs md:text-sm hover:bg-[#D1CDBC] transition-colors" onclick="closePrayerModal()">বাতিল</button>
+        <button class="flex-1 py-3 md:py-4 bg-accentLime text-darkElement rounded-full font-extrabold text-xs md:text-sm hover:opacity-90 transition-opacity" onclick="savePrayerSettings()">সেভ করুন</button>
       </div>
     </div>
   </div>
 
-  <div class="floating-nav">
-    <button class="nav-btn active" id="btn-hadith" onclick="switchV('view-hadith', 'btn-hadith')">দোয়া ও হাদিস</button>
-    <button class="nav-btn" id="btn-salat" onclick="switchV('view-salat', 'btn-salat')">সালাত ট্র্যাকার</button>
-    <button class="nav-btn" id="btn-schedule" onclick="switchV('view-schedule', 'btn-schedule')">পূর্ণ সূচী</button>
-  </div>
-
-  <div class="modal-overlay" id="update-modal">
-    <div class="modal-content">
-      <h2 class="modal-title">সার্ভার কানেক্টেড</h2>
-      <div class="modal-body">
-        <div class="update-item"><span>✓</span> Schedule text errors fixed (Bangla Month Names).</div>
-        <div class="update-item"><span>✓</span> Today (Feb 21) is set to 3rd Ramadan.</div>
-        <div class="update-item"><span>✓</span> Niyot Arabic font boxes cleanup done.</div>
-      </div>
-      <button class="btn-primary" onclick="closeUpdateModal()">চালিয়ে যান</button>
+  <div id="first-time-prayer-popup" class="fixed inset-0 bg-darkElement/40 backdrop-blur-sm z-50 hidden flex flex-col items-center justify-center p-4">
+    <div class="bg-cardWhite rounded-4xl w-full max-w-sm p-6 md:p-8 shadow-2xl text-center">
+      <div class="w-12 h-12 md:w-16 md:h-16 bg-accentLime rounded-full mx-auto flex items-center justify-center text-xl md:text-2xl mb-4">🕌</div>
+      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-2 md:mb-3">সঠিক সময়ের জন্য</h3>
+      <p class="text-xs md:text-sm text-textMain font-medium mb-6 md:mb-8 leading-relaxed">আপনার স্থানীয় মসজিদের সাথে সময় মেলাতে সেটিং থেকে ম্যানুয়ালি সময় পরিবর্তন করে নিতে পারেন।</p>
+      <button class="w-full py-3 md:py-4 bg-darkElement text-accentLime rounded-full font-extrabold text-xs md:text-sm hover:opacity-90 transition-opacity" onclick="closeFirstTimePopup()">ঠিক আছে</button>
     </div>
   </div>
 
-  <footer>Vibecoded by <a href="https://www.facebook.com/iamshakibali/" target="_blank" style="color: var(--accent-green); text-decoration: none; font-weight: 800;">Shakib</a> &copy; 2026</footer>
+  <footer class="text-center mt-10 mb-4 text-[10px] md:text-xs font-bold text-textMuted">
+    Vibecoded by <a href="https://www.facebook.com/iamshakibali/" target="_blank" class="text-darkElement hover:text-accentLime transition-colors">Shakib</a> &copy; 2026
+  </footer>
+</div>
+
+<div class="fixed bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 w-[94%] md:w-[92%] max-w-md bg-cardWhite p-1.5 md:p-2 rounded-full flex gap-1 shadow-[0_8px_30px_rgb(0,0,0,0.08)] z-30">
+  <button class="nav-btn active flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-hadith" onclick="switchV('view-hadith', 'btn-hadith')">দোয়া</button>
+  <button class="nav-btn flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-prayer" onclick="switchV('view-prayer', 'btn-prayer')">নামাজ ও ট্র্যাকার</button>
+  <button class="nav-btn flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-schedule" onclick="switchV('view-schedule', 'btn-schedule')">সূচী</button>
 </div>
 
 <script>
@@ -270,6 +296,11 @@ let fastingData = [], countdownInterval = null;
 
 const toBn = s => s.toString().replace(/[0-9]/g, w => ({'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'})[w]);
 const translate = t => toBn(t.replace('AM','ভোর').replace('PM','সন্ধ্যা'));
+
+const ramadanStartYear = 2026;
+const ramadanStartMonth = 1; 
+const ramadanStartDay = 19;  
+
 const getTodayStr = () => {
     const d = new Date();
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
@@ -286,7 +317,9 @@ const renderZila = f => {
   if (!el) return; el.innerHTML = "";
   const filtered = districts.filter(d => d.name.includes(f) || d.en.toLowerCase().includes(f.toLowerCase()));
   filtered.forEach(z => {
-    const dv = document.createElement('div'); dv.className = "zila-item"; dv.textContent = z.name;
+    const dv = document.createElement('div'); 
+    dv.className = "p-3 md:p-4 cursor-pointer bg-cardWhite mb-2 rounded-2xl font-extrabold text-sm md:text-base text-darkElement hover:bg-accentLime transition-colors shadow-sm"; 
+    dv.textContent = z.name;
     dv.onclick = () => { localStorage.setItem('selected_zila', JSON.stringify(z)); startApp(z); };
     el.appendChild(dv);
   });
@@ -295,11 +328,11 @@ const renderZila = f => {
 function loadLocalData(zila) {
   const off = offsets[zila.name] || [0,0];
   return dhakaBase.sahri.map((s, i) => {
-    const d = new Date(2026, 1, 19 + i);
+    const d = new Date(ramadanStartYear, ramadanStartMonth, ramadanStartDay + i);
     const dateStr = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
     return {
       date: dateStr,
-      hijri_readable: `${i+1} Ramadan 1447 AH`,
+      hijri_readable: `${i+1} রমজান ১৪৪৭ হিজরি`,
       time: { sah: addMinutes(s, off[0]) + " AM", ift: addMinutes(dhakaBase.iftar[i], off[1]) + " PM" }
     };
   });
@@ -307,7 +340,13 @@ function loadLocalData(zila) {
 
 async function startApp(zila) {
   const loader = document.getElementById('loader');
-  loader.style.display = 'flex';
+  const splash = document.getElementById('splash');
+  const app = document.getElementById('app');
+  
+  loader.classList.remove('hidden');
+  splash.classList.add('hidden');
+  app.classList.add('hidden');
+  
   try {
     const controller = new AbortController();
     const id = setTimeout(() => controller.abort(), 800);
@@ -318,10 +357,10 @@ async function startApp(zila) {
     const res = await response.json();
     if (res && res.data) {
       fastingData = res.data.map((item, i) => {
-        const d = new Date(2026, 1, 19 + i);
+        const d = new Date(ramadanStartYear, ramadanStartMonth, ramadanStartDay + i);
         return {
           date: d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'),
-          hijri_readable: `${i+1} Ramadan 1447 AH`,
+          hijri_readable: `${i+1} রমজান ১৪৪৭ হিজরি`,
           time: { sah: item.timings.Sehri + " AM", ift: item.timings.Iftar + " PM" }
         }
       });
@@ -337,25 +376,51 @@ async function startApp(zila) {
     document.getElementById('hijri-display').textContent = row.hijri_readable.replace(/[0-9]/g, w => toBn(w));
     document.getElementById('fast-count').textContent = `রোজা ${toBn(idx + 1)}/৩০`;
     document.getElementById('fast-num').textContent = toBn(idx + 1);
+    
     updateUI(row); 
     renderSchedule(fastingData); 
     setRandomHadith(); 
     loadSalatState();
-    document.getElementById('splash').style.display = 'none'; 
-    document.getElementById('app').style.display = 'block';
     startCountdown(row);
-    loader.style.display = 'none';
+    fetchPrayerTimes(zila);
+    
+    loader.classList.add('hidden');
+    app.classList.remove('hidden');
   }
 }
 
 function switchV(v, b) {
-  ['view-hadith', 'view-salat', 'view-schedule'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.style.display = id === v ? 'block' : 'none';
+  ['view-hadith', 'view-prayer', 'view-schedule'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      if (id === v) el.classList.remove('hidden-view');
+      else el.classList.add('hidden-view');
+    }
   });
-  ['btn-hadith', 'btn-salat', 'btn-schedule'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.classList.toggle('active', id === b);
+  ['btn-hadith', 'btn-prayer', 'btn-schedule'].forEach(id => {
+    const el = document.getElementById(id); 
+    if (el) {
+      if(id === b) el.classList.add('active');
+      else el.classList.remove('active');
+    }
   });
+
+  const topTimers = document.getElementById('top-timers-section');
+  if (topTimers) {
+    if (v === 'view-hadith') topTimers.classList.remove('hidden');
+    else topTimers.classList.add('hidden');
+  }
+
+  if (v === 'view-prayer' && !localStorage.getItem('prayer_popup_shown')) {
+    document.getElementById('first-time-prayer-popup').classList.remove('hidden');
+  }
+
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function closeFirstTimePopup() {
+  document.getElementById('first-time-prayer-popup').classList.add('hidden');
+  localStorage.setItem('prayer_popup_shown', 'true');
 }
 
 function updateUI(r) {
@@ -366,44 +431,250 @@ function updateUI(r) {
 }
 
 function renderSchedule(data) {
-  let h = `<table><thead><tr><th>রোজা</th><th>তারিখ</th><th>সাহরি</th><th>ইফতার</th></tr></thead><tbody>`;
+  let h = '';
   const t = getTodayStr();
   const months = ['জানু','ফেব্রু','মার্চ'];
   data.forEach((r, i) => {
     const d = new Date(r.date);
-    h += `<tr class="${r.date===t?'today-row':''}"><td>${toBn(i+1)}</td><td>${toBn(d.getDate())} ${months[d.getMonth()]}</td><td>${translate(r.time.sah)}</td><td>${translate(r.time.ift)}</td></tr>`;
+    const isToday = r.date === t;
+    const rowClass = isToday ? 'bg-bgCream border-l-4 border-darkElement font-extrabold text-darkElement' : 'hover:bg-bgCream font-semibold text-textMain';
+    h += `<tr class="${rowClass}">
+      <td class="px-4 py-3 md:px-5 md:py-4">${toBn(i+1)}</td>
+      <td class="px-4 py-3 md:px-5 md:py-4">${toBn(d.getDate())} ${months[d.getMonth()]}</td>
+      <td class="px-4 py-3 md:px-5 md:py-4 en-font">${translate(r.time.sah)}</td>
+      <td class="px-4 py-3 md:px-5 md:py-4 en-font">${translate(r.time.ift)}</td>
+    </tr>`;
   });
-  document.getElementById('table-container').innerHTML = h + '</tbody></table>';
+  document.getElementById('table-container').innerHTML = h;
 }
 
 function setRandomHadith() {
   const h = hadiths[Math.floor(Math.random()*hadiths.length)];
   document.getElementById('hadith-ar').textContent = h.ar;
-  document.getElementById('hadith-bn').innerHTML = `<strong>অনুবাদ:</strong> ${h.bn}`;
+  document.getElementById('hadith-bn').innerHTML = `<strong class="text-darkElement font-bold">অনুবাদ:</strong> ${h.bn}`;
   document.getElementById('hadith-source').textContent = `সোর্স: ${h.source}`;
 }
 
 function toggleSalat(id) {
-  const k = `salat_${getTodayStr()}`; let s = JSON.parse(localStorage.getItem(k)) || {};
-  s[id] = !s[id]; localStorage.setItem(k, JSON.stringify(s)); loadSalatState();
+  const k = `salat_${getTodayStr()}`; 
+  let s = JSON.parse(localStorage.getItem(k)) || {};
+  s[id] = !s[id]; 
+  localStorage.setItem(k, JSON.stringify(s)); 
+  loadSalatState();
 }
 
-function resetTodaySalat() { localStorage.removeItem(`salat_${getTodayStr()}`); loadSalatState(); }
+function resetTodaySalat() { 
+  localStorage.removeItem(`salat_${getTodayStr()}`); 
+  loadSalatState(); 
+}
 
 function loadSalatState() {
-  const ids = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
   const state = JSON.parse(localStorage.getItem(`salat_${getTodayStr()}`)) || {};
   let count = 0;
+  const ids = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
+  
   ids.forEach(id => {
-    const el = document.getElementById(`check-${id}`).parentElement;
-    if (state[id]) { el.classList.add('completed'); count++; } else el.classList.remove('completed');
+    const row = document.getElementById(`salat-row-${id}`);
+    const check = document.getElementById(`check-${id}`);
+    const svg = document.getElementById(`svg-${id}`);
+    
+    if (row && check && svg) {
+      if (state[id]) { 
+        row.classList.add('bg-accentSoft');
+        row.classList.remove('bg-bgCream');
+        check.classList.add('bg-accentLime', 'border-accentLime');
+        check.classList.remove('bg-cardWhite', 'border-bgCream');
+        svg.classList.remove('hidden');
+        count++; 
+      } else { 
+        row.classList.remove('bg-accentSoft');
+        row.classList.add('bg-bgCream');
+        check.classList.remove('bg-accentLime', 'border-accentLime');
+        check.classList.add('bg-cardWhite', 'border-bgCream');
+        svg.classList.add('hidden');
+      }
+    } else if (state[id]) {
+      count++;
+    }
   });
+  
   const progress = document.getElementById('salat-progress');
   if(progress) progress.style.width = (count/5)*100 + '%';
-  document.getElementById('reward-card').style.display = count === 5 ? 'block' : 'none';
+  
+  const reward = document.getElementById('reward-card');
+  if(count === 5) {
+    reward.classList.remove('hidden');
+  } else {
+    reward.classList.add('hidden');
+  }
 }
 
-function closeUpdateModal() { document.getElementById('update-modal').classList.remove('active'); localStorage.setItem('modal_v26_final_fix_v3', 'true'); }
+let prayerTimings = null;
+let prayerCountdownInterval = null;
+let prayerMode = localStorage.getItem('prayer_mode') || 'auto';
+let manualPrayerTimes = JSON.parse(localStorage.getItem('manual_prayer_times')) || null;
+let tempPrayerMode = prayerMode;
+
+async function fetchPrayerTimes(zila) {
+  if (prayerMode === 'manual' && manualPrayerTimes) {
+    prayerTimings = manualPrayerTimes;
+    renderPrayerTimes();
+    startPrayerCountdown();
+    return;
+  }
+
+  try {
+    const res = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${zila.en}&country=Bangladesh&method=1&school=1&timezone=Asia/Dhaka`);
+    const data = await res.json();
+    if(data && data.data) {
+      prayerTimings = data.data.timings;
+      renderPrayerTimes();
+      startPrayerCountdown();
+    }
+  } catch(e) {
+    console.error("Prayer times fetch failed", e);
+  }
+}
+
+function openPrayerModal() {
+  document.getElementById('prayer-modal').classList.remove('hidden');
+  tempPrayerMode = prayerMode;
+  updateModalUI();
+  
+  if (prayerTimings) {
+    const fields = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    fields.forEach(f => {
+      if (prayerTimings[f]) document.getElementById(`input-${f}`).value = prayerTimings[f].substring(0, 5);
+    });
+  }
+}
+
+function closePrayerModal() {
+  document.getElementById('prayer-modal').classList.add('hidden');
+}
+
+function setPrayerMode(mode) {
+  tempPrayerMode = mode;
+  updateModalUI();
+}
+
+function updateModalUI() {
+  const autoBtn = document.getElementById('mode-auto');
+  const manBtn = document.getElementById('mode-manual');
+  const inputs = document.getElementById('manual-inputs');
+  
+  if (tempPrayerMode === 'auto') {
+    autoBtn.className = "flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold bg-darkElement shadow text-accentLime transition-all";
+    manBtn.className = "flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold text-textMuted transition-all";
+    inputs.classList.add('hidden');
+  } else {
+    manBtn.className = "flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold bg-darkElement shadow text-accentLime transition-all";
+    autoBtn.className = "flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold text-textMuted transition-all";
+    inputs.classList.remove('hidden');
+  }
+}
+
+function savePrayerSettings() {
+  prayerMode = tempPrayerMode;
+  localStorage.setItem('prayer_mode', prayerMode);
+  
+  if (prayerMode === 'manual') {
+    const fields = ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha'];
+    const newTimes = {};
+    fields.forEach(f => {
+      newTimes[f] = document.getElementById(`input-${f}`).value || (prayerTimings ? prayerTimings[f] : "00:00");
+    });
+    manualPrayerTimes = newTimes;
+    localStorage.setItem('manual_prayer_times', JSON.stringify(manualPrayerTimes));
+    prayerTimings = manualPrayerTimes;
+    renderPrayerTimes();
+    startPrayerCountdown();
+  } else {
+    const s = localStorage.getItem('selected_zila');
+    if (s) fetchPrayerTimes(JSON.parse(s));
+  }
+  
+  closePrayerModal();
+}
+
+function renderPrayerTimes() {
+  if(!prayerTimings) return;
+  const list = [
+    { id: 'Fajr', name: 'ফজর', trackId: 'fajr' },
+    { id: 'Sunrise', name: 'সূর্যোদয়', trackId: null },
+    { id: 'Dhuhr', name: 'যোহর', trackId: 'dhuhr' },
+    { id: 'Asr', name: 'আসর', trackId: 'asr' },
+    { id: 'Maghrib', name: 'মাগরিব', trackId: 'maghrib' },
+    { id: 'Isha', name: 'এশা', trackId: 'isha' }
+  ];
+  let h = '';
+  list.forEach(p => {
+    if (p.trackId) {
+      h += `<div class="flex items-center p-3 md:p-4 rounded-2xl md:rounded-3xl bg-bgCream border border-transparent cursor-pointer transition-colors hover:bg-[#D1CDBC]" id="salat-row-${p.trackId}" onclick="toggleSalat('${p.trackId}')">
+        <span class="font-extrabold text-darkElement flex-1 text-sm md:text-base">${p.name}</span>
+        <span class="font-bold text-darkElement text-sm md:text-base en-font mr-3 md:mr-4">${translate24(prayerTimings[p.id])}</span>
+        <div class="w-5 h-5 md:w-6 md:h-6 rounded-full border-2 border-bgCream flex items-center justify-center bg-cardWhite transition-colors flex-shrink-0" id="check-${p.trackId}">
+          <svg class="w-3.5 h-3.5 md:w-4 md:h-4 text-darkElement hidden" id="svg-${p.trackId}" viewBox="0 0 20 20" fill="currentColor"><path d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"/></svg>
+        </div>
+      </div>`;
+    } else {
+      h += `<div class="flex items-center justify-between p-3 md:p-4 rounded-2xl md:rounded-3xl bg-bgCream border border-transparent">
+        <span class="font-extrabold text-darkElement text-sm md:text-base">${p.name}</span>
+        <span class="font-bold text-darkElement text-sm md:text-base en-font md:pr-10 pr-8">${translate24(prayerTimings[p.id])}</span>
+      </div>`;
+    }
+  });
+  document.getElementById('prayer-times-list').innerHTML = h;
+  loadSalatState();
+}
+
+function startPrayerCountdown() {
+  if(prayerCountdownInterval) clearInterval(prayerCountdownInterval);
+  const tk = () => {
+    if(!prayerTimings) return;
+    const now = new Date();
+    const times = [
+      { id: 'Fajr', name: 'ফজর', t: parseT24(prayerTimings.Fajr) },
+      { id: 'Dhuhr', name: 'যোহর', t: parseT24(prayerTimings.Dhuhr) },
+      { id: 'Asr', name: 'আসর', t: parseT24(prayerTimings.Asr) },
+      { id: 'Maghrib', name: 'মাগরিব', t: parseT24(prayerTimings.Maghrib) },
+      { id: 'Isha', name: 'এশা', t: parseT24(prayerTimings.Isha) }
+    ];
+    
+    let nextP = null;
+    for(let p of times) {
+      if(p.t > now) { nextP = p; break; }
+    }
+    if(!nextP) {
+      nextP = times[0];
+      nextP.t.setDate(nextP.t.getDate() + 1);
+    }
+
+    const diff = nextP.t - now;
+    const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    
+    document.getElementById('next-prayer-name').textContent = nextP.name;
+    document.getElementById('prayer-countdown').textContent = toBn(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
+    document.getElementById('next-prayer-time').textContent = `সময়: ${translate24(prayerTimings[nextP.id])}`;
+  };
+  tk();
+  prayerCountdownInterval = setInterval(tk, 1000);
+}
+
+function parseT24(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number);
+  const d = new Date();
+  d.setHours(h, m, 0, 0);
+  return d;
+}
+
+function translate24(timeStr) {
+  let [h, m] = timeStr.split(':').map(Number);
+  let ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  if(h === 0) h = 12;
+  return translate(`${h}:${String(m).padStart(2,'0')} ${ampm}`);
+}
 
 function startCountdown(row) {
   if (countdownInterval) clearInterval(countdownInterval);
@@ -418,7 +689,8 @@ function startCountdown(row) {
       if (tomorrow) { target = parseT(tomorrow.time.sah, tomorrow.date); label = 'সাহরি বাকি'; nTime = tomorrow.time.sah; }
       else { document.getElementById('timer-label').textContent = "ইফতার হয়েছে"; return; }
     }
-    const diff = target - now, h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
+    const diff = target - now;
+    const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
     document.getElementById('timer-label').textContent = label;
     document.getElementById('countdown-timer').textContent = toBn(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
     document.getElementById('next-event-time').textContent = translate(nTime);
@@ -435,10 +707,21 @@ function parseT(s, d) {
 
 window.onload = () => {
   const s = localStorage.getItem('selected_zila');
-  if(s) startApp(JSON.parse(s)); else { document.getElementById('loader').style.display='none'; document.getElementById('splash').style.display='flex'; renderZila(""); }
+  if(s) {
+    startApp(JSON.parse(s)); 
+  } else { 
+    document.getElementById('loader').classList.add('hidden'); 
+    document.getElementById('splash').classList.remove('hidden'); 
+    renderZila(""); 
+  }
 };
+
 document.getElementById('zila-search').addEventListener('input', e => renderZila(e.target.value));
-document.getElementById('change-city-btn').onclick = () => { document.getElementById('app').style.display='none'; document.getElementById('splash').style.display='flex'; renderZila(""); };
+document.getElementById('change-city-btn').onclick = () => { 
+  document.getElementById('app').classList.add('hidden'); 
+  document.getElementById('splash').classList.remove('hidden'); 
+  renderZila(""); 
+};
 </script>
 </body>
 </html>
