@@ -49,13 +49,47 @@
   .nav-btn.active { background-color: #1A1C16; color: #C1DA4F; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
   
   .hidden-view { display: none !important; }
+
+  @keyframes slideUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .animate-slide-up { animation: slideUp 0.5s ease-out forwards; }
+  
+  @keyframes pulse-soft {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  .pulse-btn { animation: pulse-soft 2s infinite; }
 </style>
 </head>
 <body class="text-textMain pb-32">
 
 <div id="loader" class="fixed inset-0 bg-bgCream flex flex-col items-center justify-center z-50">
   <div class="spinner mb-4"></div>
-  <div class="text-lg font-bold text-darkElement">সময়সূচী লোড হচ্ছে...</div>
+  <div class="text-lg font-bold text-darkElement">সময়সূচী লোড হচ্ছে...</div>
+</div>
+
+<!-- Lailatul Qadr Floating Trigger -->
+<button id="qadr-trigger" onclick="openQadrModal()" class="fixed bottom-24 right-4 z-40 bg-darkElement text-accentLime px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-2 font-bold text-xs pulse-btn border border-accentLime/30 transition-all active:scale-95 hidden">
+  <span class="text-base">✨</span>
+  শেষ ১০ দিন
+</button>
+
+<!-- Lailatul Qadr Modal -->
+<div id="qadr-modal" class="fixed inset-0 bg-darkElement/60 backdrop-blur-md z-[60] hidden flex items-center justify-center p-4">
+  <div class="bg-cardWhite rounded-[2.5rem] w-full max-w-sm p-8 shadow-2xl text-center border border-accentLime/20 animate-slide-up">
+    <div class="w-20 h-20 bg-accentLime rounded-full mx-auto flex items-center justify-center text-3xl mb-6 shadow-inner">✨</div>
+    <h2 class="text-2xl font-extrabold text-darkElement mb-3">শেষ ১০ দিনের ইবাদত</h2>
+    <p class="text-sm text-textMain font-medium mb-8 leading-relaxed">লাইলাতুল কদর ও রমজানের শেষ দশকের বিশেষ আমল ও ইবাদতের পূর্ণাঙ্গ লিস্ট দেখে নিন।</p>
+    <div class="flex flex-col gap-3">
+        <a href="https://lailatulqdr.figma.site" target="_blank" class="w-full py-4 bg-darkElement text-accentLime rounded-full font-extrabold text-sm hover:opacity-90 transition-all flex items-center justify-center gap-2">
+            ইবাদত লিস্ট দেখুন
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+        </a>
+        <button onclick="closeQadrModal()" class="w-full py-3 text-textMuted font-bold text-xs hover:text-darkElement transition-colors">পরে দেখব</button>
+    </div>
+  </div>
 </div>
 
 <div id="splash" class="fixed inset-0 bg-bgCream flex items-center justify-center z-40 hidden p-4">
@@ -90,12 +124,12 @@
     <div class="grid grid-cols-2 gap-3 md:gap-4 mb-5 md:mb-6">
       <div class="bg-accentLime rounded-3xl md:rounded-4xl p-4 md:p-6 flex flex-col justify-between h-32 md:h-40 relative overflow-hidden shadow-sm">
         <div class="relative z-10">
-          <span class="text-[10px] md:text-xs text-darkElement/70 font-bold uppercase tracking-wider">এখন সময়</span>
+          <span class="text-[10px] md:text-xs text-darkElement/70 font-bold uppercase tracking-wider">এখন সময়</span>
           <div class="text-darkElement font-extrabold text-lg md:text-xl mt-0.5 md:mt-1" id="timer-label">সাহরি বাকি</div>
         </div>
         <div class="relative z-10">
           <div class="text-2xl md:text-3xl font-extrabold text-darkElement en-font tracking-tighter" id="countdown-timer">০০:০০:০০</div>
-          <div class="text-[10px] md:text-[11px] text-darkElement/70 font-bold mt-1" id="duration-text">সাহরির শেষ সময়</div>
+          <div class="text-[10px] md:text-[11px] text-darkElement/70 font-bold mt-1" id="duration-text">সাহরির শেষ সময়</div>
         </div>
       </div>
       <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-4 md:p-6 flex flex-col justify-between h-32 md:h-40 relative overflow-hidden shadow-sm">
@@ -105,7 +139,7 @@
         </div>
         <div class="relative z-10">
           <div class="text-2xl md:text-3xl font-extrabold text-darkElement en-font tracking-tighter" id="next-event-time">--:--</div>
-          <div class="text-[10px] md:text-[11px] text-textMuted font-bold mt-1" id="sunset-text">ইফতারের সময়</div>
+          <div class="text-[10px] md:text-[11px] text-textMuted font-bold mt-1" id="sunset-text">ইফতারের সময়</div>
         </div>
       </div>
     </div>
@@ -138,9 +172,9 @@
       <div class="bg-cardWhite rounded-3xl md:rounded-4xl p-5 md:p-6 shadow-sm">
         <div class="flex items-center gap-3 mb-4 md:mb-5">
           <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">🌙</div>
-          <h2 class="font-extrabold text-darkElement text-base md:text-lg">সাহরির নিয়ত</h2>
+          <h2 class="font-extrabold text-darkElement text-base md:text-lg">সাহরির নিয়ত</h2>
         </div>
-        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ الْمُبَارَكِ فَرْضًا لَكَ يَا اللهُ فَتَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِیعُ الْعَلِيْمُ</p>
+        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">نَوَيْتُ أَنْ أَصُومَ غَدًا مِنْ شَهْرِ رَمَضَانَ الْمُبَارَكِ فَرْضًا لَكَ يَا اللهُ فَتَقَبَّلْ مِنِّي إِنَّكَ أَنْتَ السَّمِیعُ الْعَلِيْمُ</p>
         <p class="text-textMain text-sm md:text-[15px] leading-relaxed font-medium"><strong class="text-darkElement font-bold">অনুবাদ:</strong> হে আল্লাহ! আমি আগামীকাল পবিত্র রমজানের রোজা রাখার নিয়ত করলাম। তুমি আমার পক্ষ থেকে তা কবুল কর, নিশ্চয়ই তুমি সর্বশ্রোতা ও সর্বজ্ঞ।</p>
       </div>
 
@@ -149,7 +183,7 @@
           <div class="w-8 h-8 md:w-10 md:h-10 rounded-full bg-bgCream flex items-center justify-center text-lg md:text-xl">🤲</div>
           <h2 class="font-extrabold text-darkElement text-base md:text-lg">ইফতারের দু'আ</h2>
         </div>
-        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
+        <p class="ar-font text-xl md:text-2xl text-darkElement leading-relaxed mb-4 md:mb-5 text-right">اللَّهُمَّ لَكَ صُمْتُ وَعَلَى رِزْقِكَ أَفْطَرْتُ</p>
         <p class="text-textMain text-sm md:text-[15px] leading-relaxed font-medium"><strong class="text-darkElement font-bold">অনুবাদ:</strong> হে আল্লাহ! আমি তোমারই সন্তুষ্টির জন্য রোজা রেখেছি এবং তোমারই দেয়া রিজিক দ্বারা ইফতার করছি।</p>
       </div>
     </div>
@@ -159,7 +193,7 @@
         <span class="text-xs md:text-sm text-cardWhite/60 font-bold mb-1 md:mb-2 tracking-wide">পরবর্তী নামাজ</span>
         <div class="text-3xl md:text-4xl font-extrabold mb-1 md:mb-2" id="next-prayer-name">--</div>
         <div class="text-2xl md:text-3xl font-extrabold en-font tracking-tight mb-3 text-accentLime" id="prayer-countdown">০০:০০:০০</div>
-        <div class="text-xs md:text-sm font-bold bg-cardWhite/10 px-4 py-2 rounded-full" id="next-prayer-time">সময়: --:--</div>
+        <div class="text-xs md:text-sm font-bold bg-cardWhite/10 px-4 py-2 rounded-full" id="next-prayer-time">সময়: --:--</div>
       </div>
       
       <div id="reward-card" class="bg-accentLime text-darkElement p-5 md:p-6 rounded-3xl md:rounded-4xl text-center shadow-sm hidden">
@@ -185,7 +219,7 @@
         </div>
         
         <div class="text-textMuted text-[10px] md:text-xs font-bold mb-4 md:mb-6 text-center">
-          ⚠️ নামাজ না পড়ে টিক দেবেন না
+          ⚠️ নামাজ না পড়ে টিক দেবেন না
         </div>
 
         <div class="flex flex-col gap-2 md:gap-3" id="prayer-times-list">
@@ -216,17 +250,17 @@
   </div>
 
   <div id="prayer-modal" class="fixed inset-0 bg-darkElement/40 backdrop-blur-sm z-50 hidden flex flex-col items-center justify-center p-4">
-    <div class="bg-cardWhite rounded-4xl w-full max-w-sm p-6 md:p-8 shadow-2xl">
-      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-5 md:mb-6 text-center">নামাজের সময় সেটিং</h3>
+    <div class="bg-cardWhite rounded-4xl w-full max-sm p-6 md:p-8 shadow-2xl">
+      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-5 md:mb-6 text-center">নামাজের সময় সেটিং</h3>
       
       <div class="flex gap-2 mb-5 md:mb-6 bg-bgCream p-1.5 rounded-full">
         <button id="mode-auto" class="flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold bg-darkElement shadow text-accentLime transition-all" onclick="setPrayerMode('auto')">অটোমেটিক</button>
-        <button id="mode-manual" class="flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold text-textMuted transition-all" onclick="setPrayerMode('manual')">ম্যানুয়াল</button>
+        <button id="mode-manual" class="flex-1 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-bold text-textMuted transition-all" onclick="setPrayerMode('manual')">ম্যানুয়াল</button>
       </div>
 
       <div id="manual-inputs" class="space-y-3 md:space-y-4 hidden mb-5 md:mb-6">
         <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">ফজর</label><input type="time" id="input-Fajr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
-        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">সূর্যোদয়</label><input type="time" id="input-Sunrise" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
+        <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">সূর্যোদয়</label><input type="time" id="input-Sunrise" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
         <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">যোহর</label><input type="time" id="input-Dhuhr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
         <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">আসর</label><input type="time" id="input-Asr" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
         <div class="flex justify-between items-center"><label class="text-xs md:text-sm font-bold text-darkElement">মাগরিব</label><input type="time" id="input-Maghrib" class="bg-bgCream border-none rounded-xl px-3 py-1.5 md:px-4 md:py-2 text-xs md:text-sm outline-none focus:ring-2 focus:ring-accentLime en-font font-bold"></div>
@@ -241,10 +275,10 @@
   </div>
 
   <div id="first-time-prayer-popup" class="fixed inset-0 bg-darkElement/40 backdrop-blur-sm z-50 hidden flex flex-col items-center justify-center p-4">
-    <div class="bg-cardWhite rounded-4xl w-full max-w-sm p-6 md:p-8 shadow-2xl text-center">
+    <div class="bg-cardWhite rounded-4xl w-full max-sm p-6 md:p-8 shadow-2xl text-center">
       <div class="w-12 h-12 md:w-16 md:h-16 bg-accentLime rounded-full mx-auto flex items-center justify-center text-xl md:text-2xl mb-4">🕌</div>
-      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-2 md:mb-3">সঠিক সময়ের জন্য</h3>
-      <p class="text-xs md:text-sm text-textMain font-medium mb-6 md:mb-8 leading-relaxed">আপনার স্থানীয় মসজিদের সাথে সময় মেলাতে সেটিং থেকে ম্যানুয়ালি সময় পরিবর্তন করে নিতে পারেন।</p>
+      <h3 class="font-extrabold text-lg md:text-xl text-darkElement mb-2 md:mb-3">সঠিক সময়ের জন্য</h3>
+      <p class="text-xs md:text-sm text-textMain font-medium mb-6 md:mb-8 leading-relaxed">আপনার স্থানীয় মসজিদের সাথে সময় মেলাতে সেটিং থেকে ম্যানুয়ালি সময় পরিবর্তন করে নিতে পারেন।</p>
       <button class="w-full py-3 md:py-4 bg-darkElement text-accentLime rounded-full font-extrabold text-xs md:text-sm hover:opacity-90 transition-opacity" onclick="closeFirstTimePopup()">ঠিক আছে</button>
     </div>
   </div>
@@ -255,7 +289,7 @@
 </div>
 
 <div class="fixed bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 w-[94%] md:w-[92%] max-w-md bg-cardWhite p-1.5 md:p-2 rounded-full flex gap-1 shadow-[0_8px_30px_rgb(0,0,0,0.08)] z-30">
-  <button class="nav-btn active flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-hadith" onclick="switchV('view-hadith', 'btn-hadith')">দোয়া</button>
+  <button class="nav-btn active flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-hadith" onclick="switchV('view-hadith', 'btn-hadith')">দোয়া</button>
   <button class="nav-btn flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-prayer" onclick="switchV('view-prayer', 'btn-prayer')">নামাজ ও ট্র্যাকার</button>
   <button class="nav-btn flex-1 py-3 md:py-3.5 px-1 md:px-2 rounded-full text-[11px] md:text-[13px] font-extrabold text-textMuted transition-all duration-300 whitespace-nowrap" id="btn-schedule" onclick="switchV('view-schedule', 'btn-schedule')">সূচী</button>
 </div>
@@ -267,21 +301,21 @@ const dhakaBase = {
 };
 
 const offsets = { 
-  "ঢাকা": [0,0,"Dhaka"], "গাজীপুর": [-1,0,"Gazipur"], "নারায়ণগঞ্জ": [-1,-1,"Narayanganj"], "টাঙ্গাইল": [1,1,"Tangail"], 
-  "ময়মনসিংহ": [-1,-1,"Mymensingh"], "শেরপুর": [1,1,"Sherpur"], "জামালপুর": [1,2,"Jamalpur"], "কিশোরগঞ্জ": [-3,-3,"Kishoreganj"], 
+  "ঢাকা": [0,0,"Dhaka"], "গাজীপুর": [-1,0,"Gazipur"], "নারায়ণগঞ্জ": [-1,-1,"Narayanganj"], "টাঙ্গাইল": [1,1,"Tangail"], 
+  "ময়মনসিংহ": [-1,-1,"Mymensingh"], "শেরপুর": [1,1,"Sherpur"], "জামালপুর": [1,2,"Jamalpur"], "কিশোরগঞ্জ": [-3,-3,"Kishoreganj"], 
   "নেত্রকোনা": [-3,-2,"Netrokona"], "সিলেট": [-8,-8,"Sylhet"], "সুনামগঞ্জ": [-6,-7,"Sunamganj"], "মৌলভীবাজার": [-7,-8,"Moulvibazar"], 
   "হবিগঞ্জ": [-5,-6,"Habiganj"], "চট্টগ্রাম": [-9,-5,"Chittagong"], "কক্সবাজার": [-10,-3,"Coxs Bazar"], "কুমিল্লা": [-4,-3,"Comilla"], 
-  "ব্রাহ্মণবাড়িয়া": [-3,-3,"Brahmanbaria"], "ফেনী": [-5,-4,"Feni"], "নোয়াখালী": [-4,-2,"Noakhali"], "লক্ষ্মীপুর": [-2,-2,"Lakshmipur"], 
-  "চাঁদপুর": [-2,-2,"Chandpur"], "খাগড়াছড়ি": [-7,-5,"Khagrachhari"], "রাঙ্গামাটি": [-8,-5,"Rangamati"], "বান্দরবান": [-8,-4,"Bandarban"], 
-  "রাজশাহী": [6,7,"Rajshahi"], "নাটোর": [5,6,"Natore"], "নোয়াগাঁ": [6,5,"Naogaon"], "চাঁপাইনবাবগঞ্জ": [8,9,"Chapai Nawabganj"], 
-  "পাবনা": [3,5,"Pabna"], "সিরাজগঞ্জ": [3,2,"Sirajganj"], "বগুড়া": [3,3,"Bogra"], "জয়পুরহাট": [5,4,"Joypurhat"], 
+  "ব্রাহ্মণবাড়িয়া": [-3,-3,"Brahmanbaria"], "ফেনী": [-5,-4,"Feni"], "নোয়াখালী": [-4,-2,"Noakhali"], "লক্ষ্মীপুর": [-2,-2,"Lakshmipur"], 
+  "চাঁদপুর": [-2,-2,"Chandpur"], "খাগড়াছড়ি": [-7,-5,"Khagrachhari"], "রাঙ্গামাটি": [-8,-5,"Rangamati"], "বান্দরবান": [-8,-4,"Bandarban"], 
+  "রাজশাহী": [6,7,"Rajshahi"], "নাটোর": [5,6,"Natore"], "নোয়াগাঁ": [6,5,"Naogaon"], "চাঁপাইনবাবগঞ্জ": [8,9,"Chapai Nawabganj"], 
+  "পাবনা": [3,5,"Pabna"], "সিরাজগঞ্জ": [3,2,"Sirajganj"], "বগুড়া": [3,3,"Bogra"], "জয়পুরহাট": [5,4,"Joypurhat"], 
   "খুলনা": [3,5,"Khulna"], "বাগেরহাট": [2,3,"Bagerhat"], "সাতক্ষীরা": [4,6,"Satkhira"], "যশোর": [4,6,"Jessore"], 
-  "মাগুরা": [3,4,"Magura"], "ঝিনাইদহ": [4,5,"Jhenaidah"], "নড়াইল": [3,4,"Narail"], "কুষ্টিয়া": [5,5,"Kushtia"], 
-  "চুয়াডাঙ্গা": [6,6,"Chuadanga"], "মেহেরপুর": [7,6,"Meherpur"], "বরিশাল": [1,2,"Barisal"], "ভোলা": [-2,0,"Bhola"], 
-  "পটুয়াখালী": [0,2,"Patuakhali"], "বরগুনা": [1,2,"Barguna"], "পিরোজপুর": [2,3,"Pirojpur"], "ঝালকাঠি": [1,3,"Jhalokati"], 
-  "রংপুর": [5,2,"Rangpur"], "দিনাজপুর": [6,4,"Dinajpur"], "গাইবান্ধা": [4,2,"Gaibandha"], "কুড়িগ্রাম": [3,0,"Kurigram"], 
-  "লালমনিরহাট": [4,2,"Lalmonirhat"], "নীলফামারী": [6,3,"Nilphamari"], "পঞ্চগড়": [8,5,"Panchagarh"], "ঠাকুরগাঁও": [8,6,"Thakurgaon"], 
-  "রাজবাড়ী": [2,2,"Rajbari"], "শরীয়তপুর": [-1,0,"Shariatpur"], "মাদারীপুর": [0,1,"Madaripur"], "গোপালগঞ্জ": [1,2,"Gopalganj"], 
+  "মাগুরা": [3,4,"Magura"], "ঝিনাইদহ": [4,5,"Jhenaidah"], "নড়াইল": [3,4,"Narail"], "কুষ্টিয়া": [5,5,"Kushtia"], 
+  "চুয়াডাঙ্গা": [6,6,"Chuadanga"], "মেহেরপুর": [7,6,"Meherpur"], "বরিশাল": [1,2,"Barisal"], "ভোলা": [-2,0,"Bhola"], 
+  "পটুয়াখালী": [0,2,"Patuakhali"], "বরগুনা": [1,2,"Barguna"], "পিরোজপুর": [2,3,"Pirojpur"], "ঝালকাঠি": [1,3,"Jhalokati"], 
+  "রংপুর": [5,2,"Rangpur"], "দিনাজপুর": [6,4,"Dinajpur"], "গাইবান্ধা": [4,2,"Gaibandha"], "কুড়িগ্রাম": [3,0,"Kurigram"], 
+  "লালমনিরহাট": [4,2,"Lalmonirhat"], "নীলফামারী": [6,3,"Nilphamari"], "পঞ্চগড়": [8,5,"Panchagarh"], "ঠাকুরগাঁও": [8,6,"Thakurgaon"], 
+  "রাজবাড়ী": [2,2,"Rajbari"], "শরীয়তপুর": [-1,0,"Shariatpur"], "মাদারীপুর": [0,1,"Madaripur"], "গোপালগঞ্জ": [1,2,"Gopalganj"], 
   "ফরিদপুর": [1,2,"Faridpur"], "মানিকগঞ্জ": [1,1,"Manikganj"], "মুন্সীগঞ্জ": [-1,0,"Munshiganj"], "নরসিংদী": [-2,-1,"Narsingdi"] 
 };
 
@@ -383,10 +417,39 @@ async function startApp(zila) {
     loadSalatState();
     startCountdown(row);
     fetchPrayerTimes(zila);
+    checkQadrAccess(idx + 1);
     
     loader.classList.add('hidden');
     app.classList.remove('hidden');
   }
+}
+
+function checkQadrAccess(currentFast) {
+    const qadrModal = document.getElementById('qadr-modal');
+    const qadrTrigger = document.getElementById('qadr-trigger');
+    const todayStr = getTodayStr();
+    const hasSeenToday = sessionStorage.getItem(`qadr_dismissed_${todayStr}`);
+    
+    // Show trigger button if it's 20th Ramadan or later
+    if (currentFast >= 20) {
+        qadrTrigger.classList.remove('hidden');
+        if (!hasSeenToday) {
+            setTimeout(() => {
+                openQadrModal();
+            }, 1500);
+        }
+    } else {
+        qadrTrigger.classList.add('hidden');
+    }
+}
+
+function openQadrModal() {
+    document.getElementById('qadr-modal').classList.remove('hidden');
+}
+
+function closeQadrModal() {
+    document.getElementById('qadr-modal').classList.add('hidden');
+    sessionStorage.setItem(`qadr_dismissed_${getTodayStr()}`, 'true');
 }
 
 function switchV(v, b) {
@@ -426,8 +489,8 @@ function closeFirstTimePopup() {
 function updateUI(r) {
   document.getElementById('summ-sahur').textContent = translate(r.time.sah);
   document.getElementById('summ-iftar').textContent = translate(r.time.ift);
-  document.getElementById('duration-text').textContent = `সাহরির শেষ সময়: ${toBn(r.time.sah.split(' ')[0])}`;
-  document.getElementById('sunset-text').textContent = `ইফতারের সময়: ${toBn(r.time.ift.split(' ')[0])}`;
+  document.getElementById('duration-text').textContent = `সাহরির শেষ সময়: ${toBn(r.time.sah.split(' ')[0])}`;
+  document.getElementById('sunset-text').textContent = `ইফতারের সময়: ${toBn(r.time.ift.split(' ')[0])}`;
 }
 
 function renderSchedule(data) {
@@ -601,7 +664,7 @@ function renderPrayerTimes() {
   if(!prayerTimings) return;
   const list = [
     { id: 'Fajr', name: 'ফজর', trackId: 'fajr' },
-    { id: 'Sunrise', name: 'সূর্যোদয়', trackId: null },
+    { id: 'Sunrise', name: 'সূর্যোদয়', trackId: null },
     { id: 'Dhuhr', name: 'যোহর', trackId: 'dhuhr' },
     { id: 'Asr', name: 'আসর', trackId: 'asr' },
     { id: 'Maghrib', name: 'মাগরিব', trackId: 'maghrib' },
@@ -655,7 +718,7 @@ function startPrayerCountdown() {
     
     document.getElementById('next-prayer-name').textContent = nextP.name;
     document.getElementById('prayer-countdown').textContent = toBn(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
-    document.getElementById('next-prayer-time').textContent = `সময়: ${translate24(prayerTimings[nextP.id])}`;
+    document.getElementById('next-prayer-time').textContent = `সময়: ${translate24(prayerTimings[nextP.id])}`;
   };
   tk();
   prayerCountdownInterval = setInterval(tk, 1000);
@@ -687,7 +750,7 @@ function startCountdown(row) {
     else {
       const tomorrow = fastingData.find(r => r.date > row.date);
       if (tomorrow) { target = parseT(tomorrow.time.sah, tomorrow.date); label = 'সাহরি বাকি'; nTime = tomorrow.time.sah; }
-      else { document.getElementById('timer-label').textContent = "ইফতার হয়েছে"; return; }
+      else { document.getElementById('timer-label').textContent = "ইফতার হয়েছে"; return; }
     }
     const diff = target - now;
     const h = Math.floor(diff/3600000), m = Math.floor((diff%3600000)/60000), s = Math.floor((diff%60000)/1000);
